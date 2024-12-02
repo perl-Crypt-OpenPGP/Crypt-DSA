@@ -9,10 +9,9 @@ use File::Spec;
 use File::Which ();
 use Symbol qw( gensym );
 
+#VERSION
+
 use vars qw{$VERSION};
-BEGIN {
-    $VERSION = '1.17';
-}
 
 use Crypt::DSA::Key;
 use Crypt::DSA::Util qw( bin2mp bitsize mod_exp makerandom isprime );

@@ -5,6 +5,8 @@ use Carp qw( croak );
 use Convert::PEM;
 use Crypt::DSA::Key;
 
+#VERSION
+
 use vars qw{$VERSION @ISA};
 BEGIN {
     $VERSION = '1.17';
