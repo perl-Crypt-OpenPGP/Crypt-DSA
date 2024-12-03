@@ -56,7 +56,7 @@ sub generate_params {
                     next;
                 }
                 if (/^\s*((?:[0-9a-f]{2,2}:?)+)\s*$/) {
-                    $parts{$cur_part} .= $1;
+                    $parts{$cur_part} .= $1 if defined $cur_part;
                 }
             }
 
