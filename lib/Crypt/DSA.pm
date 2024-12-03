@@ -9,10 +9,9 @@ use Crypt::DSA::Key;
 use Crypt::DSA::Signature;
 use Crypt::DSA::Util qw( bitsize bin2mp mod_inverse mod_exp makerandom );
 
+#VERSION
+
 use vars qw( $VERSION );
-BEGIN {
-    $VERSION = '1.17';
-}
 
 sub new {
     my $class = shift;

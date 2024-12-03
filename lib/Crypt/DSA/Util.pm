@@ -7,8 +7,10 @@ use Carp qw( croak );
 
 use vars qw( $VERSION @ISA @EXPORT_OK );
 use Exporter;
+
+#VERSION
+
 BEGIN {
-    $VERSION   = '1.17';
     @ISA       = qw( Exporter );
     @EXPORT_OK = qw( bitsize bin2mp mp2bin mod_inverse mod_exp makerandom isprime );
 }

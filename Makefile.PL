@@ -1,14 +1,81 @@
-use inc::Module::Install 1.01;
+use strict;
+use warnings;
 
-all_from      'lib/Crypt/DSA.pm';
-requires      'IPC::Open3'   => 0;
-requires      'File::Spec'   => 0;
-requires      'Digest::SHA1' => 0;
-requires      'MIME::Base64' => 0;
-requires      'File::Which'  => '0.05';
-requires      'Math::BigInt' => '1.78';
-requires      'Data::Random' => '0.05' if win32;
-requires      'Data::Buffer' => '0.01';
-test_requires 'Test::More'   => '0.42';
+use 5.006;
 
-WriteAll;
+use ExtUtils::MakeMaker;
+
+my %WriteMakefileArgs = (
+  "ABSTRACT" => "DSA Signatures and Key Generation",
+  "AUTHOR" => "Benjamin Trott <ben\@sixapart.com>",
+  "BUILD_REQUIRES" => {
+    "Crypt::DES_EDE3" => 0,
+    "Data::Buffer" => "0.01",
+    "Digest::SHA1" => 0,
+    "ExtUtils::MakeMaker" => "6.42",
+    "File::Spec" => 0,
+    "File::Which" => "0.05",
+    "IPC::Open3" => 0,
+    "MIME::Base64" => 0,
+    "Math::BigInt" => "1.78",
+    "Test::Exception" => 0
+  },
+  "CONFIGURE_REQUIRES" => {
+    "ExtUtils::MakeMaker" => "6.42"
+  },
+  "DISTNAME" => "Crypt-DSA",
+  "LICENSE" => "perl",
+  "MIN_PERL_VERSION" => "5.006",
+  "NAME" => "Crypt::DSA",
+  "PREREQ_PM" => {
+    "Convert::ASN1" => 0,
+    "Convert::PEM" => 0,
+    "Data::Buffer" => "0.01",
+    "Data::Random" => 0,
+    "Digest::SHA1" => 0,
+    "File::Spec" => 0,
+    "File::Which" => "0.05",
+    "IPC::Open3" => 0,
+    "MIME::Base64" => 0,
+    "Math::BigInt" => "1.78"
+  },
+  "TEST_REQUIRES" => {
+    "Crypt::DES_EDE3" => 0,
+    "Test::Exception" => 0,
+    "Test::More" => 0
+  },
+  "VERSION" => "1.18",
+  "test" => {
+    "TESTS" => "t/*.t"
+  }
+);
+
+
+my %FallbackPrereqs = (
+  "Convert::ASN1" => 0,
+  "Convert::PEM" => 0,
+  "Crypt::DES_EDE3" => 0,
+  "Data::Buffer" => "0.01",
+  "Data::Random" => 0,
+  "Digest::SHA1" => 0,
+  "ExtUtils::MakeMaker" => "6.42",
+  "File::Spec" => 0,
+  "File::Which" => "0.05",
+  "IPC::Open3" => 0,
+  "MIME::Base64" => 0,
+  "Math::BigInt" => "1.78",
+  "Test::Exception" => 0,
+  "Test::More" => 0
+);
+
+
+unless ( eval { ExtUtils::MakeMaker->VERSION(6.63_03) } ) {
+  delete $WriteMakefileArgs{TEST_REQUIRES};
+  delete $WriteMakefileArgs{BUILD_REQUIRES};
+  $WriteMakefileArgs{PREREQ_PM} = \%FallbackPrereqs;
+}
+
+delete $WriteMakefileArgs{CONFIGURE_REQUIRES}
+  unless eval { ExtUtils::MakeMaker->VERSION(6.52) };
+
+WriteMakefile(%WriteMakefileArgs);
