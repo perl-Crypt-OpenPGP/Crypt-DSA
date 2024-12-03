@@ -9,16 +9,10 @@ my %WriteMakefileArgs = (
   "ABSTRACT" => "DSA Signatures and Key Generation",
   "AUTHOR" => "Benjamin Trott <ben\@sixapart.com>",
   "BUILD_REQUIRES" => {
-    "Crypt::DES_EDE3" => 0,
     "Data::Buffer" => "0.01",
-    "Digest::SHA1" => 0,
     "ExtUtils::MakeMaker" => "6.42",
-    "File::Spec" => 0,
     "File::Which" => "0.05",
-    "IPC::Open3" => 0,
-    "MIME::Base64" => 0,
-    "Math::BigInt" => "1.78",
-    "Test::Exception" => 0
+    "Math::BigInt" => "1.78"
   },
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => "6.42"
@@ -41,7 +35,6 @@ my %WriteMakefileArgs = (
   },
   "TEST_REQUIRES" => {
     "Crypt::DES_EDE3" => 0,
-    "Test::Exception" => 0,
     "Test::More" => 0
   },
   "VERSION" => "1.18",
@@ -64,7 +57,6 @@ my %FallbackPrereqs = (
   "IPC::Open3" => 0,
   "MIME::Base64" => 0,
   "Math::BigInt" => "1.78",
-  "Test::Exception" => 0,
   "Test::More" => 0
 );
 
