@@ -139,6 +139,18 @@ are provided by the I<Math::Pari> library.
 This package provides DSA signing, signature verification, and key
 generation.
 
+=head1 SECURITY
+
+DSA (Digital Signature Algorithm) signatures are no longer considered
+to be adequate for security.   
+
+This module should only be used for verifying old signatures and
+should not be used for new signatures.
+
+That being said, some technologies still require DSA signatures even
+in 2024. Consider using other solutions or explicitly not using DSA
+signatures.
+
 =head1 USAGE
 
 The I<Crypt::DSA> public interface is similar to that of
