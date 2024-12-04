@@ -2,6 +2,21 @@ Revision history for Perl extension Crypt-DSA
 
 {{$NEXT}}
 
+1.19 -- Wed Dec 04 10:49:10 AST 2024
+
+    [Changes since 1.17]
+    - Release 1.18-TRIAL as a production release
+    - New Maintainer
+    - This release resolves CVE-2011-3599 
+    - Added a statement to recommend against using DSA
+    - Fixed a few long standing bugs
+    - The build process is moved to Dist::Zilla
+    - Thanks to all the people who contributed to the tickets that were closed
+
+    [Detailed Change List]
+    - 47bda33 Increment Repo Version
+    - ffd39e8 (tag: 1.18) Update Changes for a Release
+
     [Changes since 1.17]
     - New Maintainer
     - This release resolves CVE-2011-3599 
