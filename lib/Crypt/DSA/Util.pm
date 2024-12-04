@@ -7,10 +7,10 @@ use Crypt::URandom qw (urandom);
 use Fcntl;
 use Carp qw( croak );
 
+#VERSION
+
 use vars qw( $VERSION @ISA @EXPORT_OK );
 use Exporter;
-
-#VERSION
 
 BEGIN {
     @ISA       = qw( Exporter );
