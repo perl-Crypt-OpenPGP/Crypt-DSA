@@ -2,7 +2,7 @@ package Crypt::DSA;
 
 use 5.006;
 use strict;
-use Digest::SHA1 qw( sha1 );
+use Digest::SHA qw( sha1 );
 use Carp qw( croak );
 use Crypt::DSA::KeyChain;
 use Crypt::DSA::Key;
@@ -224,7 +224,7 @@ use that as the digest to sign. Thus writing
 
 is a shorter way of writing
 
-    use Digest::SHA1 qw( sha1 );
+    use Digest::SHA qw( sha1 );
     my $sig = $dsa->sign(Digest => sha1( $message ), ... );
 
 =back

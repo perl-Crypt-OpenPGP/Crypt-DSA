@@ -104,7 +104,7 @@ USAGE
 
         is a shorter way of writing
 
-            use Digest::SHA1 qw( sha1 );
+            use Digest::SHA qw( sha1 );
             my $sig = $dsa->sign(Digest => sha1( $message ), ... );
 
   $verified = $dsa->verify(%arg)

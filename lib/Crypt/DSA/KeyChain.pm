@@ -2,7 +2,7 @@ package Crypt::DSA::KeyChain;
 
 use strict;
 use Math::BigInt 1.78 try => 'GMP, Pari';
-use Digest::SHA1 qw( sha1 );
+use Digest::SHA qw( sha1 );
 use Carp qw( croak );
 use IPC::Open3;
 use File::Spec;
