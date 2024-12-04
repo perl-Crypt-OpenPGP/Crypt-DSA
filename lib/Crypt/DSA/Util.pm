@@ -82,7 +82,7 @@ sub isprime_algorithms_with_perl {
 	while $p2 <= $n1;
     $p2 /= 2;
 
-    # number of interations:  5 for 260-bit numbers, go up to 25 for smaller
+    # number of iterations:  5 for 260-bit numbers, go up to 25 for smaller
     my $last_witness = 5;
     $last_witness += (260 - $p2index) / 13 if $p2index < 260;
 
