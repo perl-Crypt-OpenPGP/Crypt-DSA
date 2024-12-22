@@ -1,6 +1,7 @@
 package Crypt::DSA::Signature;
 
 use strict;
+use warnings;
 use Carp qw( croak );
 
 #VERSION

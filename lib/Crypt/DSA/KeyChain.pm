@@ -1,6 +1,7 @@
 package Crypt::DSA::KeyChain;
 
 use strict;
+use warnings;
 use Math::BigInt 1.78 try => 'GMP, Pari';
 use Digest::SHA qw( sha1 );
 use Carp qw( croak );

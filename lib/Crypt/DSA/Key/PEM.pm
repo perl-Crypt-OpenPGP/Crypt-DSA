@@ -1,6 +1,7 @@
 package Crypt::DSA::Key::PEM;
 
 use strict;
+use warnings;
 use Carp qw( croak );
 use Convert::PEM;
 use Crypt::DSA::Key;

@@ -1,6 +1,7 @@
 package Crypt::DSA::Util;
 
 use strict;
+use warnings;
 use Math::BigInt 1.78 try => 'GMP, Pari';
 use Crypt::URandom qw (urandom);
 

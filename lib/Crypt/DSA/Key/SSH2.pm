@@ -1,6 +1,7 @@
 package Crypt::DSA::Key::SSH2;
 
 use strict;
+use warnings;
 use MIME::Base64 qw( decode_base64 );
 use Crypt::DSA::Key;
 

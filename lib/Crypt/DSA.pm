@@ -2,6 +2,7 @@ package Crypt::DSA;
 
 use 5.006;
 use strict;
+use warnings;
 use Digest::SHA qw( sha1 );
 use Carp qw( croak );
 use Crypt::DSA::KeyChain;
