@@ -39,15 +39,16 @@ sub generate_params {
         if ( $openssl ) {
             print STDERR "Using openssl\n" if $v;
             my $bits_n = int($bits);
-            open( NULL, ">", File::Spec->devnull );
-            my $pid = open3( gensym, \*OPENSSL, ">&NULL", "$openssl dsaparam -text -noout $bits_n" );
+            open( NULL, ">", File::Spec->devnull ) or die "Unable to open devnull: $!";
+            my $pid = open3(gensym, \*OPENSSL, ">&NULL", $openssl, 'dsaparam', '-text', '-noout', $bits_n);
             my @res;
             while( <OPENSSL> ) {
                 push @res, $_;
             }
-            waitpid( $pid, 0 );
             close OPENSSL;
             close NULL;
+            waitpid( $pid, 0 );
+            die "openssl dsaparam failed: " . ($? >> 8) if $?;
 
             my %parts;
             my $cur_part;
