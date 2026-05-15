@@ -64,7 +64,7 @@ sub read {
     bless $key, $class;
     local *FH;
     if (my $fname = delete $param{Filename}) {
-        open FH, $fname or return;
+        open FH, '<', $fname or return;
         my $blob = do { local $/; <FH> };
         close FH;
         $param{Content} = $blob;
@@ -88,7 +88,7 @@ sub write {
     my $blob = $key->serialize(%param);
     if (my $fname = delete $param{Filename}) {
         local *FH;
-        open FH, ">$fname" or croak "Can't open $fname: $!";
+        open FH, '>', $fname or croak "Can't open $fname: $!";
         print FH $blob;
         close FH;
     }
