@@ -44,8 +44,11 @@ sub sign {
     croak "Data too large for key size"
         if $dlen > $i || $dlen > 50;
 
-    $dsa->_sign_setup($key)
-        unless $key->kinv && $key->r;
+    # SECURITY: a DSA nonce (k) must NEVER be reused across signatures;
+    # two signatures sharing k disclose the private key. Always generate
+    # fresh r/kinv per signature -- do NOT reuse any values cached on the
+    # Key object from a previous sign().
+    $dsa->_sign_setup($key);
 
     my $m = bin2mp($dgst);
     my $xr = ($key->priv_key * $key->r) % $key->q;
