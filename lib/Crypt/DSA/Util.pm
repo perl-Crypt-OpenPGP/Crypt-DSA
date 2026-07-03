@@ -15,7 +15,7 @@ use Exporter;
 
 BEGIN {
     @ISA       = qw( Exporter );
-    @EXPORT_OK = qw( bitsize bin2mp mp2bin mod_inverse mod_exp makerandom isprime );
+    @EXPORT_OK = qw( bitsize bin2mp mp2bin mod_inverse mod_exp makerandom randombelow isprime );
 }
 
 ## Nicked from Crypt::RSA::DataFormat.
@@ -62,6 +62,28 @@ sub makerandom {
     $r = unpack 'H*', pack 'B*', '0' x ( $size % 8 ? 8 - $size % 8 : 0 ) .
         '1' . unpack "b$down", $r;
     Math::BigInt->new('0x' . $r);
+}
+
+# Uniform random integer in [0, $n-1] with no modulo bias (rejection
+# sampling).  Unlike makerandom(), this does NOT force the high bit, so
+# it is correct for DSA nonces and private keys, which must be uniform
+# in [1, q-1].  makerandom() forces the high bit to obtain an exactly
+# N-bit value for prime search, which biases a nonce/key: folding its
+# output with "v -= q if v >= q" leaves the band [2^N-q, 2^(N-1)-1]
+# unreachable (CWE-330, biased-nonce -> lattice key recovery).
+sub randombelow {
+    my $n = shift;
+    $n = Math::BigInt->new("$n") unless ref($n) eq 'Math::BigInt';
+    croak "randombelow: argument must be > 0" unless $n > 0;
+    my $bits  = length($n->as_bin) - 2;
+    my $bytes = int(($bits + 7) / 8) + 1;          # one byte of headroom
+    my $rmax  = Math::BigInt->new(2) ** (8 * $bytes);
+    my $limit = $rmax - ($rmax % $n);              # largest multiple of $n <= rmax
+    my $r;
+    do {
+        $r = Math::BigInt->new('0x' . unpack('H*', urandom($bytes)));
+    } while $r >= $limit;
+    $r % $n;
 }
 
 # For testing, let us choose our isprime function:
