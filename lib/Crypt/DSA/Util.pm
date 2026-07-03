@@ -89,14 +89,29 @@ sub randombelow {
 # For testing, let us choose our isprime function:
 *isprime = \&isprime_algorithms_with_perl;
 
+# CSPRNG-drawn Miller-Rabin base, uniform enough in [2, n-2].  A witness
+# only has to be a random base in range for the strong-pseudoprime test
+# to be sound, so (unlike a secret nonce) a plain draw with a few extra
+# bytes of headroom is fine -- the modulo bias is immaterial here.
+sub _random_base {
+    my ($n) = @_;
+    my $range = $n - 3;                     # 0 .. n-4
+    my $bytes = int(bitsize($n) / 8) + 8;   # headroom keeps bias negligible
+    my $r = Math::BigInt->new('0x' . unpack 'H*', urandom($bytes));
+    ($r % $range) + 2;                      # 2 .. n-2
+}
+
 # from the book "Mastering Algorithms with Perl" by Jon Orwant,
 # Jarkko Hietaniemi, and John Macdonald
 sub isprime_algorithms_with_perl {
     use integer;
     my $n = shift;
+    return 0 if $n < 2;
+    return 1 if $n < 4;         # 2 and 3 are prime
+    return 0 unless $n % 2;     # even n > 2 (also keeps _random_base's
+                                # [2, n-2] range non-degenerate)
     my $n1 = $n - 1;
     my $one = $n - $n1;  # not just 1, but a bigint
-    my $witness = $one * 100;
 
     # find the power of two for the top bit of $n1
     my $p2 = $one;
@@ -110,10 +125,12 @@ sub isprime_algorithms_with_perl {
     $last_witness += (260 - $p2index) / 13 if $p2index < 260;
 
     for my $witness_count (1..$last_witness) {
-	$witness *= 1024;
-	$witness += int(rand(1024));  # XXXX use good rand
-	$witness = $witness % $n if $witness > $n;
-	$witness = $one * 100, redo if $witness == 0;
+	# Fresh, independent CSPRNG witness every round.  The old code
+	# accumulated witnesses from int(rand(1024)) -- Perl's predictable
+	# Mersenne-Twister PRNG, and correlated round-to-round -- which
+	# both weakens each round and breaks the independence the
+	# Miller-Rabin error bound assumes.
+	my $witness = _random_base($n);
 
 	my $prod = $one;
 	my $n1bits = $n1;
